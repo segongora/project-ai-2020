@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+<style media="screen">
+	.container-fluid {
+		padding: 75px;
+	}
+
+	.row {
+		background-color: red;
+	}
+
+</style>
+<div class="container-fluid text-center">
+	<a class="btn btn-xl btn-success" name="button" href="{{ url_for('addinfected') }}">Add infected</a>
+	<a class="btn btn-xl btn-warning" name="button" href="{{ url_for('spotted') }}">Spotted infected</a>
+
+</div>
+{% endblock %}

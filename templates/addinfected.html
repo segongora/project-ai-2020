@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}
+Add infected
+{% endblock %}
+
+{% block body %}
+<style>
+	h1 {
+		font-weight: 100;
+	}
+
+	.container-fluid {
+		padding: 75px;
+
+	}
+
+	.holder {
+		width: 20%;
+		margin: auto;
+	}
+
+	.infected-form label {
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+		font-size: 9px;
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+
+	.infected-form input {
+		width: 100%;
+		border: 1px solid #DDD;
+		padding: 0px 7px 0px 7px;
+		border-radius: 5px;
+	}
+
+	.infected-form input:focus {
+		outline: none;
+	}
+
+	.space-35 {
+		height: 35px;
+	}
+
+	#face-image-input {
+		border: 0;
+	}
+
+</style>
+<div class="container-fluid">
+	<h1>Add Infected Patient</h1>
+	<hr class="my-4">
+	<div class="holder">
+		<form class="infected-form" action="{{ url_for('add') }}" method="post">
+			<label for="name">Name</label>
+			<input type="text" name="name" placeholder="John Doe" required>
+			<div class="space-35"></div>
+			<label for="name">Phone Number</label>
+			<input type="number" name="number" placeholder="123 4567 890" required>
+			<div class="space-35"></div>
+			<label for="name">Face Image</label>
+			<input id="face-image-input" type="file" name="image" placeholder="Press here to upload image" accept="image/*" required>
+		</form>
+	</div>
+</div>
+{% endblock%}

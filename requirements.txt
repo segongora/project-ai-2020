@@ -1,0 +1,7 @@
+Flask
+requests
+Flask-Session
+psycopg2-binary
+SQLAlchemy
+Werkzeug==0.15.3
+gunicorn

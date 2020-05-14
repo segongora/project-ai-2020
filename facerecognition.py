@@ -13,7 +13,7 @@ from azure.cognitiveservices.vision.face import FaceClient
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, OperationStatusType
 
-def findFace():
+def findFace(url):
 	# Set the FACE_SUBSCRIPTION_KEY environment variable with your key as the value.
 	# This key will serve all examples in this document.
 	KEY = os.environ['COGNITIVE_SERVICE_KEY']
@@ -25,7 +25,7 @@ def findFace():
 	# Create an authenticated FaceClient.
 	face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
 	# Detect a face in an image that contains a single face
-	single_face_image_url = 'https://sergio-ai-project.herokuapp.com/static/sergio.jpg'
+	single_face_image_url = url
 	single_image_name = os.path.basename(single_face_image_url)
 	detected_faces = face_client.face.detect_with_url(url=single_face_image_url)
 	if not detected_faces:
@@ -42,7 +42,7 @@ def findFace():
 
 	# Detect the faces in an image that contains multiple faces
 	# Each detected face gets assigned a new ID
-	multi_face_image_url = "https://sergio-ai-project.herokuapp.com/static/sergio.jpg"
+	multi_face_image_url = url
 	multi_image_name = os.path.basename(multi_face_image_url)
 	detected_faces2 = face_client.face.detect_with_url(url=multi_face_image_url)
 	# Search through faces detected in group image for the single face from first image.
@@ -67,3 +67,7 @@ def findFace():
 			print('    Top: ', str(face_info.face_rectangle.top))
 			print('    Width: ', str(face_info.face_rectangle.width))
 			print('    Height: ', str(face_info.face_rectangle.height))
+
+		return True
+
+	return False

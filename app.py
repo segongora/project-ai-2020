@@ -6,7 +6,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.utils import secure_filename
-import facerecognition
+from facerecognition import findFace
 
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -26,6 +26,7 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+sp=[]
 
 @app.route("/")
 def index():
@@ -72,12 +73,28 @@ def allowed_file(filename):
 @app.route("/spotted")
 def spotted():
 	people = db.execute("SELECT * FROM people").fetchall()
-	spotted = session['spotted']
-	return render_template("spotted.html", people=people, spotted=spotted)
+	spot = session.get('people')
+
+	return render_template("spotted.html", people=people, spot=spot)
 
 @app.route("/facialrecognition/<string:id>")
 def facialrecognition(id):
 	url = 'https://sergio-ai-project.herokuapp.com/static/' + id + ".jpg"
+	if findFace(url):
+		session['spotted'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
+		sp = session.get('people')
+		sp.append(session.get('spotted'))
+		session['people'] = sp
+
+	return redirect(url_for('spotted'))
+
+@app.route("/removespotted/<string:id>")
+def removespotted(id):
+	session['remove'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
+	s = session.get('people')
+	s.remove(session.get('remove'))
+	session['people'] = s
+
 	return redirect(url_for('spotted'))
 
 @app.route("/img", methods=["GET"])

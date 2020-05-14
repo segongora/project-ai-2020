@@ -65,7 +65,11 @@ Spotted
 		</div>
 		<div class="col-md-5 list">
 			<ul>
-				<li><a href="#">Algo mas</a></li>
+				{% if spot %}
+				{% for s in spot %}
+				<li>{{ s.name }} - <a href="{{ url_for('removespotted', id = s.id)}}">Remove</a></li>
+				{% endfor %}
+				{% endif %}
 			</ul>
 		</div>
 	</div>

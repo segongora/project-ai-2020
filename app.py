@@ -85,8 +85,10 @@ def facialrecognition(id):
 		session['spotted'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
 		if session.get('people'):
 			sp = session.get('people')
-			
-		sp.append(session.get('spotted'))
+			sp.append(session.get('spotted'))
+		else:
+			sp = session.get('spotted')
+
 		session['people'] = sp
 
 	return redirect(url_for('spotted'))

@@ -46,9 +46,29 @@ Spotted
 		border: 0;
 	}
 
+	.list a {
+		color: red;
+	}
+
 </style>
 <a class="btn btn-xl btn-link" name="button" href="{{ url_for('index') }}">Go back</a>
 <div class="container-fluid">
 	<h1>Infected detected by cameras</h1>
+	<hr class="my-4">
+	<div class="row">
+		<div class="col-md-5 live-camera border-right">
+			<ol>
+				{% for person in people %}
+				<li>{{person.name}} <a href="{{url_for('facialrecognition', id=person.id) }}">Seen</a></li>
+				{% endfor %}
+			</ol>
+		</div>
+		<div class="col-md-5 list">
+			<ul>
+				<li><a href="#">Algo mas</a></li>
+			</ul>
+		</div>
+	</div>
 </div>
+
 {% endblock %}

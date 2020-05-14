@@ -6,6 +6,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.utils import secure_filename
+import facerecognition
 
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -70,7 +71,14 @@ def allowed_file(filename):
 
 @app.route("/spotted")
 def spotted():
-    return render_template("spotted.html")
+	people = db.execute("SELECT * FROM people").fetchall()
+	spotted = session['spotted']
+	return render_template("spotted.html", people=people, spotted=spotted)
+
+@app.route("/facialrecognition/<string:id>")
+def facialrecognition(id):
+	url = 'https://sergio-ai-project.herokuapp.com/static/' + id + ".jpg"
+	return redirect(url_for('spotted'))
 
 @app.route("/img", methods=["GET"])
 def images():

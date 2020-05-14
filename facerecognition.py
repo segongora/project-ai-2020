@@ -16,11 +16,11 @@ from azure.cognitiveservices.vision.face.models import TrainingStatusType, Perso
 def findFace(url):
 	# Set the FACE_SUBSCRIPTION_KEY environment variable with your key as the value.
 	# This key will serve all examples in this document.
-	KEY = os.environ['COGNITIVE_SERVICE_KEY']
+	KEY = os.getenv('COGNITIVE_SERVICE_KEY')
 
 	# Set the FACE_ENDPOINT environment variable with the endpoint from your Face service in Azure.
 	# This endpoint will be used in all examples in this quickstart.
-	ENDPOINT = os.environ['FACE_ENDPOINT']
+	ENDPOINT = os.getenv('FACE_ENDPOINT')
 
 	# Create an authenticated FaceClient.
 	face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))

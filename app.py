@@ -26,7 +26,8 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-sp=[]
+sp = []
+s = []
 
 @app.route("/")
 def index():
@@ -82,7 +83,9 @@ def facialrecognition(id):
 	url = 'https://sergio-ai-project.herokuapp.com/static/' + id + ".jpg"
 	if findFace(url):
 		session['spotted'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
-		sp = session.get('people')
+		if session.get('people'):
+			sp = session.get('people')
+			
 		sp.append(session.get('spotted'))
 		session['people'] = sp
 

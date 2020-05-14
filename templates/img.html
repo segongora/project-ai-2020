@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}
+Face images
+{% endblock %}
+
+{% block body %}
+<ul>
+	{% for pic in pics %}
+	<li><img src="{{ url_for('static', filename=pic)}}" alt="{{pic}}" width="100px"></li>
+	{% endfor %}
+</ul>
+{% endblock %}

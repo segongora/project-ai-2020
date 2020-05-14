@@ -4,7 +4,50 @@ Spotted
 {% endblock %}
 
 {% block body %}
-<a class="btn btn-xl btn-link" name="button" href="javascript:history.back()">Go back</a>
+<style>
+	h1 {
+		font-weight: 100;
+	}
+
+	.container-fluid {
+		padding: 75px;
+
+	}
+
+	.holder {
+		width: 20%;
+		margin: auto;
+	}
+
+	.infected-form label {
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+		font-size: 9px;
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+
+	.infected-form input {
+		width: 100%;
+		border: 1px solid #DDD;
+		padding: 0px 7px 0px 7px;
+		border-radius: 5px;
+	}
+
+	.infected-form input:focus {
+		outline: none;
+	}
+
+	.space-35 {
+		height: 35px;
+	}
+
+	#face-image-input {
+		border: 0;
+	}
+
+</style>
+<a class="btn btn-xl btn-link" name="button" href="{{ url_for('index') }}">Go back</a>
 <div class="container-fluid">
 	<h1>Infected detected by cameras</h1>
 </div>

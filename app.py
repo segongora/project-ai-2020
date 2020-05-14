@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'img'
+UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -71,6 +71,12 @@ def allowed_file(filename):
 @app.route("/spotted")
 def spotted():
     return render_template("spotted.html")
+
+@app.route("/img", methods=["GET"])
+def images():
+	pics = os.listdir('static/')
+	return render_template("img.html", pics=pics)
+
 
 if __name__ == '__main__':
     app.run()

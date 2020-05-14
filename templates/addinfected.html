@@ -47,20 +47,30 @@ Add infected
 	}
 
 </style>
+<a class="btn btn-xl btn-link" name="button" href="javascript:history.back()">Go back</a>
 <div class="container-fluid">
+
 	<h1>Add Infected Patient</h1>
 	<hr class="my-4">
 	<div class="holder">
-		<form class="infected-form" action="{{ url_for('add') }}" method="post">
+		<form class="infected-form" action="{{ url_for('add') }}" method="post" enctype="multipart/form-data">
 			<label for="name">Name</label>
-			<input type="text" name="name" placeholder="John Doe" required>
+			<input type="text" name="name" placeholder="John Doe" value="john doe" required>
 			<div class="space-35"></div>
-			<label for="name">Phone Number</label>
-			<input type="number" name="number" placeholder="123 4567 890" required>
+			<label for="phone">Phone Number</label>
+			<input type="text" name="phone" placeholder="123 4567 890" value="234890567" required>
 			<div class="space-35"></div>
-			<label for="name">Face Image</label>
-			<input id="face-image-input" type="file" name="image" placeholder="Press here to upload image" accept="image/*" required>
+			<label for="image">Face Image</label>
+			<input id="face-image-input" type="file" name="image" accept="image/png, image/jpeg" required>
+			<button class="w-100 my-4 btn btn-xl btn-success" name="button">Add</button>
 		</form>
 	</div>
+	<hr class="my-4">
+	<h1>List</h1>
+	<ul>
+		{% for person in people %}
+		<li>{{ person.name }} | +(52) {{ person.phone }}</li>
+		{% endfor %}
+	</ul>
 </div>
 {% endblock%}

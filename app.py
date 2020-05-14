@@ -1,17 +1,29 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, request, redirect, url_for, jsonify
+from flask import Flask, session, render_template, request, redirect, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = 'img'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+if not os.getenv("DATABASE_URL"):
+    raise RuntimeError("DATABASE_URL is not set")
+
+# Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-
 Session(app)
+
+# Set up database
+engine = create_engine(os.getenv("DATABASE_URL"))
+db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
@@ -21,18 +33,44 @@ def index():
 
 @app.route("/addinfected")
 def addinfected():
-    return render_template("addinfected.html")
+    people = db.execute("SELECT * FROM people")
+    return render_template("addinfected.html", people=people)
 
 
 @app.route("/add", methods=["POST"])
 def add():
-    return ""
+	if request.method == "POST":
+		if request.files:
+			name = request.form.get("name").title()
+			phone = request.form.get("phone")
+			file = request.files['image']
 
+			if file and allowed_file(file.filename):
+				if db.execute("SELECT * FROM people").rowcount == 0:
+					filename = "1"
+					file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+					db.execute("INSERT INTO people (name, phone, image) VALUES (:name, :phone, :image)", {"name": name, "phone": phone, "image": filename})
+					db.commit()
+
+					return redirect(url_for('addinfected'))
+
+				filename = db.execute("SELECT * from people ORDER BY id DESC").fetchone()
+				image_name = filename.id + 1
+					#secure_filename(file.filename)
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+
+				db.execute("INSERT INTO people (name, phone, image) VALUES (:name, :phone, :image)", {"name": name, "phone": phone, "image": image_name})
+				db.commit()
+
+			return redirect(url_for('addinfected'))
+
+def allowed_file(filename):
+	return '.' in filename and \
+		filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/spotted")
 def spotted():
     return render_template("spotted.html")
-
 
 if __name__ == '__main__':
     app.run()

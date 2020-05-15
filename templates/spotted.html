@@ -5,7 +5,8 @@ Spotted
 
 {% block body %}
 <style>
-	h1 {
+	h1,
+	h4 {
 		font-weight: 100;
 	}
 
@@ -66,6 +67,7 @@ Spotted
 		<div class="col-md-5 list">
 			<ul>
 				{% if spot %}
+				<h4>There's been a person infected spotted outside quarantine</h4>
 				<li>{{ spot.name }} - <a href="{{ url_for('removespotted', id = spot.id)}}">Remove</a></li>
 				{% endif %}
 			</ul>

@@ -55,9 +55,10 @@ def add():
 					return redirect(url_for('addinfected'))
 
 				filename = db.execute("SELECT * from people ORDER BY image DESC").fetchone()
-				image_name = filename.id + 1, ".jpg"
+				image_name = filename.id + 1
+				st = str(image_name) + '.jpg'
 					#secure_filename(file.filename)
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], st))
 
 				db.execute("INSERT INTO people (name, phone, image) VALUES (:name, :phone, :image)", {"name": name, "phone": phone, "image": image_name})
 				db.commit()

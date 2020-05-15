@@ -31,8 +31,9 @@ def findFace(url):
 	single_image_name = os.path.basename(single_face_image_url)
 	detected_faces = face_client.face.detect_with_url(url=single_face_image_url)
 	if not detected_faces:
-	    raise Exception('No face detected from image {}'.format(single_image_name))
 		return False
+	    #raise Exception('No face detected from image {}'.format(single_image_name))
+
 
 	# Display the detected face ID in the first single-face image.
 	# Face IDs are used for comparison to faces (their IDs) detected in other images.

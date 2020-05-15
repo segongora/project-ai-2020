@@ -32,6 +32,7 @@ def findFace(url):
 	detected_faces = face_client.face.detect_with_url(url=single_face_image_url)
 	if not detected_faces:
 	    raise Exception('No face detected from image {}'.format(single_image_name))
+		return False
 
 	# Display the detected face ID in the first single-face image.
 	# Face IDs are used for comparison to faces (their IDs) detected in other images.
@@ -54,6 +55,7 @@ def findFace(url):
 	similar_faces = face_client.face.find_similar(face_id=first_image_face_ID, face_ids=second_image_face_IDs)
 	if not similar_faces[0]:
 		print('No similar faces found in', multi_image_name, '.')
+		return False
 	# Print the details of the similar faces detected
 	print('Similar faces found in', multi_image_name + ':')
 	for face in similar_faces:

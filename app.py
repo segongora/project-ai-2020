@@ -70,7 +70,7 @@ def allowed_file(filename):
 
 @app.route("/spotted")
 def spotted():
-	people = db.execute("SELECT * FROM people").fetchall()
+	people = db.execute("SELECT * FROM people ORDER BY id DESC").fetchall()
 	spot = session.get('people')
 
 	return render_template("spotted.html", people=people, spot=spot)

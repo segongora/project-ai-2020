@@ -33,7 +33,7 @@ def index():
 
 @app.route("/addinfected")
 def addinfected():
-    people = db.execute("SELECT * FROM people")
+    people = db.execute("SELECT * FROM people ORDER BY id ASC")
     return render_template("addinfected.html", people=people)
 
 
@@ -70,7 +70,7 @@ def allowed_file(filename):
 
 @app.route("/spotted")
 def spotted():
-	people = db.execute("SELECT * FROM people ORDER BY id DESC").fetchall()
+	people = db.execute("SELECT * FROM people ORDER BY id ASC").fetchall()
 	spot = session.get('people')
 
 	return render_template("spotted.html", people=people, spot=spot)

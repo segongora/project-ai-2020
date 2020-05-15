@@ -47,17 +47,17 @@ def add():
 
 			if file and allowed_file(file.filename):
 				if db.execute("SELECT * FROM people").rowcount == 0:
-					filename = "1"
-					file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+					filename = "1.jpg"
+					file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 					db.execute("INSERT INTO people (name, phone, image) VALUES (:name, :phone, :image)", {"name": name, "phone": phone, "image": filename})
 					db.commit()
 
 					return redirect(url_for('addinfected'))
 
-				filename = db.execute("SELECT * from people ORDER BY id DESC").fetchone()
-				image_name = filename.id + 1
+				filename = db.execute("SELECT * from people ORDER BY image DESC").fetchone()
+				image_name = filename.id + 1, ".jpg"
 					#secure_filename(file.filename)
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_name))
 
 				db.execute("INSERT INTO people (name, phone, image) VALUES (:name, :phone, :image)", {"name": name, "phone": phone, "image": image_name})
 				db.commit()

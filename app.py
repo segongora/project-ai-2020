@@ -26,9 +26,6 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-sp = []
-s = []
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -82,23 +79,13 @@ def spotted():
 def facialrecognition(id):
 	url = 'https://sergio-ai-project.herokuapp.com/static/' + id + ".jpg"
 	if findFace(url):
-		session['spotted'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
-		if session.get('people'):
-			sp = session.get('people')
-			sp.append(session.get('spotted'))
-		else:
-			sp = session.get('spotted')
-
-		session['people'] = sp
+		session['people'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
 
 	return redirect(url_for('spotted'))
 
 @app.route("/removespotted/<string:id>")
 def removespotted(id):
-	session['remove'] = db.execute("SELECT * FROM people WHERE id = :id", {"id": id}).fetchone()
-	s = session.get('people')
-	s.remove(session.get('remove'))
-	session['people'] = s
+	session['people'] = ''
 
 	return redirect(url_for('spotted'))
 

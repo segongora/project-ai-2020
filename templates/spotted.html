@@ -54,20 +54,21 @@ Spotted
 </style>
 <a class="btn btn-xl btn-link" name="button" href="{{ url_for('index') }}">Go back</a>
 <div class="container-fluid">
-	<h1>Infected detected by cameras</h1>
-	<hr class="my-4">
+	<h1 class="text-center w-100">Infected detected by cameras</h1>
+	<hr class="my-5">
 	<div class="row">
-		<div class="col-md-5 live-camera border-right">
+		<div class="col-md-6 live-camera border-right">
+			<h4>List of patients</h4>
 			<ol>
 				{% for person in people %}
 				<li>{{person.name}} <a href="{{url_for('facialrecognition', id=person.id) }}">Seen</a></li>
 				{% endfor %}
 			</ol>
 		</div>
-		<div class="col-md-5 list">
+		<div class="col-md-6 list border-left">
+			{% if spot %}
+			<h4>There's been a person infected spotted outside quarantine</h4>
 			<ul>
-				{% if spot %}
-				<h4>There's been a person infected spotted outside quarantine</h4>
 				<li>{{ spot.name }} - <a href="{{ url_for('removespotted', id = spot.id)}}">Remove</a></li>
 				{% endif %}
 			</ul>

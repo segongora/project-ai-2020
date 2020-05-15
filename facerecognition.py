@@ -31,6 +31,7 @@ def findFace(url):
 	single_image_name = os.path.basename(single_face_image_url)
 	detected_faces = face_client.face.detect_with_url(url=single_face_image_url)
 	if not detected_faces:
+		print('\nThere are no detected faces in the image ', single_image_name, "\n")
 		return False
 	    #raise Exception('No face detected from image {}'.format(single_image_name))
 
